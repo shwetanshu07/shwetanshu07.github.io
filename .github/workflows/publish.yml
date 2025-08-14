@@ -23,12 +23,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r req.txt
 
+      - name: Debug - show repo structure
+        run: ls -R
+
       - name: Build site with Pelican
-        run: pelican content -s publishconf.py -o output
+        run: pelican content -s ./publishconf.py -o output
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: output
+          publish_dir: ./output
