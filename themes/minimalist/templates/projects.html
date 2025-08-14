@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+    <h1>Projects</h1>
+    <p class="meta">Selected work and tinkering.</p>
+  </section>
+
+  <section class="grid">
+    {% for p in pages %}
+      {# determine project category safely: prefer p.category.name if object, else check metadata #}
+      {% set cat = (p.category.name if p.category else (p.metadata.get('category','') if p.metadata is defined else '')) %}
+      {% if cat|lower == 'projects' %}
+        <article class="card">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.summary or p.metadata.get('blurb', '') }}</p>
+          <div class="meta">{% for t in p.tags %}#{{ t }} {% endfor %}</div>
+          <p><a class="tag" href="{{ SITEURL }}/{{ p.url }}">Open ↗</a></p>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </section>
+{% endblock %}

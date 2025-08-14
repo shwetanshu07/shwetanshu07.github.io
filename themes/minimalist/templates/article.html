@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+  <article class="prose">
+    <div style="margin-bottom: 8px;"><a class="tag" href="{{ SITEURL }}/articles/">← Back</a></div>
+    <h1>{{ article.title }}</h1>
+    <div class="meta">{{ article.date.strftime('%b %d, %Y') }} • {% for t in article.tags %}#{{ t }} {% endfor %}</div>
+    <div class="divider"></div>
+    {{ article.content }}
+  </article>
+  </section>
+{% endblock %}

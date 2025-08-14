@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+  <h1>articles</h1>
+  <div class="toolbar">
+    <div class="search" role="search">
+      <svg width="16" height="16" aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 0 0 1.57-4.23A6.5 6.5 0 1 0 9.5 15a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.505 4.505 0 0 1 9.5 14Z"/></svg>
+      <input id="search" placeholder="Search articles" />
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap: wrap" aria-label="Tags filter">
+      {% set all_tags = [] %}
+      {% for a in articles %}
+        {% for t in a.tags %}
+          {% if t not in all_tags %}{% set _ = all_tags.append(t) %}{% endif %}
+        {% endfor %}
+      {% endfor %}
+      <button class="tag active" data-tag="all">#all</button>
+      {% for t in all_tags|sort %}
+        <button class="tag" data-tag="{{ t }}">#{{ t }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <section class="grid">
+    {% for article in articles %}
+      <article class="card">
+        <a href="{{ SITEURL }}/{{ article.url }}">
+          <h3>{{ article.title }}</h3>
+          <div class="meta">{{ article.date.strftime('%b %d, %Y') }} • {% for t in article.tags %}#{{ t }} {% endfor %}</div>
+          <p>{{ article.summary or article.metadata.get('excerpt', '') }}</p>
+        </a>
+      </article>
+    {% endfor %}
+  </section>
+  </section>
+{% endblock %}
